@@ -1,1 +1,80 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulasi Bunga</title><link rel="stylesheet" href="style.css"></head><body><header class="appbar"><a href="index.html">←</a><div class="brand">BJ</div></header><main class="calc"><h1>Simulasi Bunga</h1><label>Periode</label><input id="period" class="field" type="month" value="2026-06"><label>Nominal</label><div class="row"><input id="nominal" value="125000000"><button onclick="step('nominal',-1000000)">−</button><button onclick="step('nominal',1000000)">+</button></div><label>Tenor Bulan</label><div class="tenors"><button data-m="1">1</button><button class="active" data-m="3">3</button><button data-m="6">6</button><button data-m="12">12</button><button data-m="24">24</button></div><label>Tenor Hari</label><input id="days" class="field" readonly><label>Suku Bunga</label><input id="rate" class="field" readonly><label>Bunga Gross</label><input id="gross" class="field" readonly><label>Pajak</label><input id="tax" class="field" readonly><label>Bunga Net</label><input id="net" class="field" readonly><p class="note">Rate mengikuti tiering nominal, basis 360 hari, pajak 20%.</p></main><footer class="bottom"><a href="index.html">Cancel</a><button onclick="saveCurrent()">Save</button></footer><script src="common.js"></script><script src="simulasi-bunga.js"></script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simulasi Bunga</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="calc-body">
+<header class="topbar">
+  <div class="page-wrap topbar-inner">
+    <a class="back" href="index.html" aria-label="Kembali">←</a>
+    <div class="mini-brand">S</div>
+    <div>
+      <strong>Portal Simulasi Penempatan Dana</strong>
+      <span>Hitung bunga berdasarkan nominal penempatan dan tenor.</span>
+    </div>
+  </div>
+</header>
+<main class="page-wrap calc-page">
+  <section class="calc-card">
+    <div class="calc-title">
+      <h1>Simulasi Bunga</h1>
+      <p>Hitung bunga berdasarkan nominal penempatan dan tenor.</p>
+    </div>
+    
+    <div class="form-grid">
+      <label>Periode Penempatan
+        <input id="period" type="month" value="2026-06">
+      </label>
+
+      <label>Nominal Penempatan
+        <div class="stepper">
+          <span>Rp</span><input id="nominal" inputmode="numeric" value="125000000">
+          <button type="button" data-step="-1000000">−</button>
+          <button type="button" data-step="1000000">+</button>
+        </div>
+      </label>
+
+      <label>Tenor
+        <div class="tenor-row five">
+          <button class="tenor" data-month="1">1</button>
+          <button class="tenor active" data-month="3">3</button>
+          <button class="tenor" data-month="6">6</button>
+          <button class="tenor" data-month="12">12</button>
+          <button class="tenor" data-month="24">24</button>
+        </div>
+      </label>
+
+      <label>Tenor Hari
+        <input id="days" class="readonly" readonly>
+      </label>
+
+      <label>Suku Bunga
+        <input id="rate" class="readonly" readonly>
+      </label>
+
+      <div class="result-box">
+        <span>Bunga Gross</span>
+        <strong id="gross"></strong>
+      </div>
+
+      <div class="result-box">
+        <span>Pajak</span>
+        <strong id="tax"></strong>
+      </div>
+
+      <div class="result-box accent">
+        <span>Bunga Net</span>
+        <strong id="net"></strong>
+      </div>
+    </div>
+    <p class="note">Rate mengikuti tiering nominal penempatan. Basis perhitungan 360 hari dan pajak 20%.</p>
+    
+  </section>
+</main>
+<script src="assets/common.js"></script>
+<script src="assets/simulasi-bunga.js"></script>
+</body>
+</html>

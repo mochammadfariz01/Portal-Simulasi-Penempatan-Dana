@@ -1,1 +1,74 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kalkulator Deposito</title><link rel="stylesheet" href="style.css"></head><body><header class="appbar"><a href="index.html">←</a><div class="brand">BJ</div></header><main class="calc"><h1>Kalkulator Deposito</h1><label>Nominal</label><div class="row"><input id="nominal" value="50000000"><button onclick="step('nominal',-1000000)">−</button><button onclick="step('nominal',1000000)">+</button></div><label>Bunga (% p.a.)</label><input id="rate" class="field" type="number" value="3"><label>Tenor Hari</label><input id="days" class="field" type="number" value="30"><label>Bunga Bersih</label><input id="net" class="field" readonly><label>Total Akhir</label><input id="total" class="field" readonly></main><footer class="bottom"><a href="index.html">Cancel</a><button onclick="saveCurrent()">Save</button></footer><script src="common.js"></script><script>['nominal','rate','days'].forEach(i=>document.getElementById(i).oninput=calc);function calc(){let x=n('nominal'),r=+rate.value||0,d=+days.value||0,b=x*r/100*d/365*.8;net.value=rp(b);total.value=rp(x+b)}calc()</script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kalkulator Deposito</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="calc-body">
+<header class="topbar">
+  <div class="page-wrap topbar-inner">
+    <a class="back" href="index.html" aria-label="Kembali">←</a>
+    <div class="mini-brand">S</div>
+    <div>
+      <strong>Portal Simulasi Penempatan Dana</strong>
+      <span>Hitung estimasi bunga bersih dan total dana saat jatuh tempo.</span>
+    </div>
+  </div>
+</header>
+<main class="page-wrap calc-page">
+  <section class="calc-card">
+    <div class="calc-title">
+      <h1>Kalkulator Deposito</h1>
+      <p>Hitung estimasi bunga bersih dan total dana saat jatuh tempo.</p>
+    </div>
+    
+    <div class="form-grid">
+      <label>Nominal Penempatan
+        <div class="stepper">
+          <span>Rp</span><input id="nominal" inputmode="numeric" value="50000000">
+          <button type="button" data-step="-1000000">−</button>
+          <button type="button" data-step="1000000">+</button>
+        </div>
+      </label>
+
+      <label>Suku Bunga (% p.a.)
+        <div class="stepper">
+          <input id="rate" type="number" value="3" step="0.25">
+          <button type="button" data-rate="-0.25">−</button>
+          <button type="button" data-rate="0.25">+</button>
+        </div>
+      </label>
+
+      <label>Tenor
+        <div class="tenor-row">
+          <button class="tenor active" data-days="30">1 Bulan</button>
+          <button class="tenor" data-days="90">3 Bulan</button>
+          <button class="tenor" data-days="180">6 Bulan</button>
+          <button class="tenor" data-days="365">12 Bulan</button>
+        </div>
+      </label>
+
+      <label>Jumlah Hari
+        <input id="days" class="readonly" readonly>
+      </label>
+
+      <div class="result-box">
+        <span>Estimasi Bunga Bersih</span>
+        <strong id="interest"></strong>
+      </div>
+
+      <div class="result-box accent">
+        <span>Estimasi Dana Jatuh Tempo</span>
+        <strong id="total"></strong>
+      </div>
+    </div>
+    <p class="note">Perhitungan menggunakan basis 365 hari dan estimasi pajak bunga 20%.</p>
+    
+  </section>
+</main>
+<script src="assets/common.js"></script>
+<script src="assets/deposito.js"></script>
+</body>
+</html>

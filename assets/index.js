@@ -1,0 +1,2 @@
+const input=document.getElementById('searchInput'),cards=[...document.querySelectorAll('.card')],count=document.getElementById('countText');
+input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();let shown=0;cards.forEach(c=>{const ok=!q||c.dataset.search.includes(q)||c.innerText.toLowerCase().includes(q);c.style.display=ok?'flex':'none';if(ok)shown++});count.textContent=`${shown} simulasi tersedia`;});

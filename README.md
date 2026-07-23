@@ -1,5 +1,11 @@
 # Portal Simulasi Penempatan Dana
 
-Berisi Kalkulator Deposito, Simulasi Bunga, Simulasi Nominal, dan Simulasi Tenor.
+Portal GitHub Pages bernuansa oranye, tanpa tombol Save dan Cancel.
 
-Upload seluruh file ke root repository GitHub, lalu aktifkan GitHub Pages dari branch main dan folder /(root).
+## Halaman
+- Kalkulator Deposito
+- Simulasi Bunga
+- Simulasi Nominal
+- Simulasi Tenor
+
+Upload seluruh isi folder ke root repository, lalu aktifkan GitHub Pages dari branch `main` dan folder `/(root)`.

@@ -1,1 +1,84 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulasi Tenor</title><link rel="stylesheet" href="style.css"></head><body><header class="appbar"><a href="index.html">←</a><div class="brand">BJ</div></header><main class="calc"><h1>Simulasi Tenor</h1><label>Nominal</label><div class="row"><input id="nominal" value="9240000000"><button onclick="step('nominal',-1000000)">−</button><button onclick="step('nominal',1000000)">+</button></div><label>Suku Bunga (% p.a.)</label><div class="row"><input id="rate" type="number" value="4.5" step="0.25"><button onclick="rate.value=Math.max(.25,+rate.value-.25);calc()">−</button><button onclick="rate.value=+rate.value+.25;calc()">+</button></div><label>Target Bunga Net</label><div class="row"><input id="target" value="25000000000"><button onclick="step('target',-1000000)">−</button><button onclick="step('target',1000000)">+</button></div><label>Bunga Gross</label><input id="gross" class="field" readonly><label>Pajak</label><input id="tax" class="field" readonly><label>Bunga Net</label><input id="net" class="field" readonly><label>Estimasi Tenor Program</label><input id="monthsOut" class="field" readonly><label>Estimasi Hari</label><input id="daysOut" class="field" readonly></main><footer class="bottom"><a href="index.html">Cancel</a><button onclick="saveCurrent()">Save</button></footer><script src="common.js"></script><script src="simulasi-tenor.js"></script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simulasi Tenor</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="calc-body">
+<header class="topbar">
+  <div class="page-wrap topbar-inner">
+    <a class="back" href="index.html" aria-label="Kembali">←</a>
+    <div class="mini-brand">S</div>
+    <div>
+      <strong>Portal Simulasi Penempatan Dana</strong>
+      <span>Hitung estimasi tenor berdasarkan nominal dan target bunga.</span>
+    </div>
+  </div>
+</header>
+<main class="page-wrap calc-page">
+  <section class="calc-card">
+    <div class="calc-title">
+      <h1>Simulasi Tenor</h1>
+      <p>Hitung estimasi tenor berdasarkan nominal dan target bunga.</p>
+    </div>
+    
+    <div class="form-grid">
+      <label>Nominal Penempatan
+        <div class="stepper">
+          <span>Rp</span><input id="nominal" inputmode="numeric" value="9240000000">
+          <button type="button" data-step="-1000000">−</button>
+          <button type="button" data-step="1000000">+</button>
+        </div>
+      </label>
+
+      <label>Suku Bunga (% p.a.)
+        <div class="stepper">
+          <input id="rateInput" type="number" value="4.5" step="0.25">
+          <button type="button" data-rate="-0.25">−</button>
+          <button type="button" data-rate="0.25">+</button>
+        </div>
+      </label>
+
+      <label>Target Bunga Net
+        <div class="stepper">
+          <span>Rp</span><input id="targetNet" inputmode="numeric" value="25000000000">
+          <button type="button" data-target="-1000000">−</button>
+          <button type="button" data-target="1000000">+</button>
+        </div>
+      </label>
+
+      <div class="result-box">
+        <span>Bunga Gross</span>
+        <strong id="gross"></strong>
+      </div>
+
+      <div class="result-box">
+        <span>Pajak</span>
+        <strong id="tax"></strong>
+      </div>
+
+      <div class="result-box">
+        <span>Bunga Net</span>
+        <strong id="net"></strong>
+      </div>
+
+      <div class="result-box accent">
+        <span>Estimasi Tenor</span>
+        <strong id="months"></strong>
+      </div>
+
+      <div class="result-box">
+        <span>Estimasi Hari</span>
+        <strong id="days"></strong>
+      </div>
+    </div>
+    <p class="note">Konversi estimasi tenor menggunakan 30 hari per bulan dan basis perhitungan 360 hari.</p>
+    
+  </section>
+</main>
+<script src="assets/common.js"></script>
+<script src="assets/simulasi-tenor.js"></script>
+</body>
+</html>
