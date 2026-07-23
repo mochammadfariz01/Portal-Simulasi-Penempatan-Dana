@@ -1,0 +1,1 @@
+['period','target','rate'].forEach(i=>document.getElementById(i).oninput=calc);bind();function calc(){let targetNet=n('target'),d=daysFrom(period.value,months()),r=+rate.value||0,g=targetNet/.8,t=g-targetNet,p=r&&d?g/(r/100*d/360):0;days.value=d;placement.value=rp(p);gross.value=rp(g);tax.value='Rp -'+Math.round(t).toLocaleString('id-ID');net.value=rp(targetNet)}calc();

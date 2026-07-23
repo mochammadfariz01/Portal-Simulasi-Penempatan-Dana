@@ -1,0 +1,1 @@
+['period','nominal'].forEach(i=>document.getElementById(i).oninput=calc);bind();function calc(){let x=n('nominal'),d=daysFrom(period.value,months()),r=tier(x),g=x*r/100*d/360,t=g*.2;days.value=d;rate.value=r.toFixed(2).replace('.',',')+'%';gross.value=rp(g);tax.value='Rp -'+Math.round(t).toLocaleString('id-ID');net.value=rp(g-t)}calc();
