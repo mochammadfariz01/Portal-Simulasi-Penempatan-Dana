@@ -1,1 +1,81 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Portal Simulasi Penempatan Dana</title><link rel="stylesheet" href="style.css"></head><body><header class="appbar"><div class="brand">BJ</div><h2>Portal Simulasi Penempatan Dana</h2></header><main class="menu"><a href="deposito.html">Kalkulator Deposito<span>Hitung estimasi bunga deposito</span></a><a href="simulasi-bunga.html">Simulasi Bunga<span>Hitung bunga berdasarkan nominal dan tenor</span></a><a href="simulasi-nominal.html">Simulasi Nominal<span>Hitung kebutuhan nominal penempatan</span></a><a href="simulasi-tenor.html">Simulasi Tenor<span>Hitung estimasi tenor penempatan</span></a></main></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Portal Simulasi Penempatan Dana</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="portal-page">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="eyebrow"><span class="mini-logo">S</span> Portal Simulasi Penempatan Dana</div>
+      <h1>Pilih simulasi yang dibutuhkan</h1>
+      <p>Portal internal untuk membantu RM menghitung estimasi bunga, nominal penempatan, tenor, dan deposito.</p>
+    </div>
+  </section>
+
+  <main class="wrap portal-content">
+    <div class="search-box">
+      <input id="search" type="search" placeholder="Cari simulasi, misalnya bunga, nominal, tenor, atau deposito">
+    </div>
+
+    <div class="section-head">
+      <h2>Daftar Simulasi</h2>
+      <span id="count">4 simulasi tersedia</span>
+    </div>
+
+    <section class="card-grid" id="cardGrid">
+      <article class="calc-card" data-search="deposito kalkulator bunga deposito">
+        <div class="card-icon icon-gold">💰</div>
+        <span class="badge">Tersedia</span>
+        <h3>Kalkulator Deposito</h3>
+        <p>Hitung estimasi bunga bersih dan total dana saat jatuh tempo.</p>
+        <a href="deposito.html">Buka Kalkulator</a>
+      </article>
+
+      <article class="calc-card" data-search="simulasi bunga nominal tenor rate tiering">
+        <div class="card-icon icon-green">%</div>
+        <span class="badge">Tersedia</span>
+        <h3>Simulasi Bunga</h3>
+        <p>Hitung bunga gross, pajak, dan bunga net berdasarkan nominal dan tenor.</p>
+        <a href="simulasi-bunga.html">Buka Simulasi</a>
+      </article>
+
+      <article class="calc-card" data-search="simulasi nominal penempatan target bunga">
+        <div class="card-icon icon-pink">123</div>
+        <span class="badge">Tersedia</span>
+        <h3>Simulasi Nominal</h3>
+        <p>Hitung kebutuhan nominal penempatan berdasarkan target bunga yang diinginkan.</p>
+        <a href="simulasi-nominal.html">Buka Simulasi</a>
+      </article>
+
+      <article class="calc-card" data-search="simulasi tenor program bulan hari target bunga">
+        <div class="card-icon icon-purple">◷</div>
+        <span class="badge">Tersedia</span>
+        <h3>Simulasi Tenor</h3>
+        <p>Hitung estimasi tenor penempatan berdasarkan nominal dan target bunga.</p>
+        <a href="simulasi-tenor.html">Buka Simulasi</a>
+      </article>
+    </section>
+
+    <p class="portal-note">Portal simulasi internal. Hasil perhitungan tetap mengacu pada ketentuan dan kebijakan yang berlaku.</p>
+  </main>
+
+  <script>
+    const input = document.getElementById('search');
+    const cards = [...document.querySelectorAll('.calc-card')];
+    const count = document.getElementById('count');
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase().trim();
+      let shown = 0;
+      cards.forEach(card => {
+        const match = !q || card.dataset.search.includes(q) || card.innerText.toLowerCase().includes(q);
+        card.style.display = match ? '' : 'none';
+        if (match) shown++;
+      });
+      count.textContent = `${shown} simulasi tersedia`;
+    });
+  </script>
+</body>
+</html>
