@@ -24,28 +24,30 @@
       <p>Hitung estimasi tenor berdasarkan nominal dan target bunga.</p>
     </div>
     
-    <div class="form-grid">
+    <section class="data-panel">
+  <h2>Data Penempatan</h2>
+  <div class="form-grid">
       <label>Nominal Penempatan
-        <div class="stepper">
+        <div class="clean-input">
           <span>Rp</span><input id="nominal" inputmode="numeric" value="9240000000">
-          <button type="button" data-step="-1000000">−</button>
-          <button type="button" data-step="1000000">+</button>
+          
+          
         </div>
       </label>
 
       <label>Suku Bunga (% p.a.)
-        <div class="stepper">
+        <div class="clean-input">
           <input id="rateInput" type="number" value="4.5" step="0.25">
-          <button type="button" data-rate="-0.25">−</button>
-          <button type="button" data-rate="0.25">+</button>
+          
+          
         </div>
       </label>
 
       <label>Target Bunga Net
-        <div class="stepper">
+        <div class="clean-input">
           <span>Rp</span><input id="targetNet" inputmode="numeric" value="25000000000">
-          <button type="button" data-target="-1000000">−</button>
-          <button type="button" data-target="1000000">+</button>
+          
+          
         </div>
       </label>
 
@@ -74,6 +76,7 @@
         <strong id="days"></strong>
       </div>
     </div>
+</section>
     <p class="note">Konversi estimasi tenor menggunakan 30 hari per bulan dan basis perhitungan 360 hari.</p>
     
   </section>

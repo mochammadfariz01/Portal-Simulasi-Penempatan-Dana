@@ -24,20 +24,22 @@
       <p>Hitung estimasi bunga bersih dan total dana saat jatuh tempo.</p>
     </div>
     
-    <div class="form-grid">
+    <section class="data-panel">
+  <h2>Data Penempatan</h2>
+  <div class="form-grid">
       <label>Nominal Penempatan
-        <div class="stepper">
+        <div class="clean-input">
           <span>Rp</span><input id="nominal" inputmode="numeric" value="50000000">
-          <button type="button" data-step="-1000000">−</button>
-          <button type="button" data-step="1000000">+</button>
+          
+          
         </div>
       </label>
 
       <label>Suku Bunga (% p.a.)
-        <div class="stepper">
+        <div class="clean-input">
           <input id="rate" type="number" value="3" step="0.25">
-          <button type="button" data-rate="-0.25">−</button>
-          <button type="button" data-rate="0.25">+</button>
+          
+          
         </div>
       </label>
 
@@ -64,6 +66,7 @@
         <strong id="total"></strong>
       </div>
     </div>
+</section>
     <p class="note">Perhitungan menggunakan basis 365 hari dan estimasi pajak bunga 20%.</p>
     
   </section>

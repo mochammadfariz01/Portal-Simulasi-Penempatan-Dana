@@ -24,16 +24,18 @@
       <p>Hitung bunga berdasarkan nominal penempatan dan tenor.</p>
     </div>
     
-    <div class="form-grid">
+    <section class="data-panel">
+  <h2>Data Penempatan</h2>
+  <div class="form-grid">
       <label>Periode Penempatan
         <input id="period" type="month" value="2026-06">
       </label>
 
       <label>Nominal Penempatan
-        <div class="stepper">
+        <div class="clean-input">
           <span>Rp</span><input id="nominal" inputmode="numeric" value="125000000">
-          <button type="button" data-step="-1000000">−</button>
-          <button type="button" data-step="1000000">+</button>
+          
+          
         </div>
       </label>
 
@@ -70,6 +72,7 @@
         <strong id="net"></strong>
       </div>
     </div>
+</section>
     <p class="note">Rate mengikuti tiering nominal penempatan. Basis perhitungan 360 hari dan pajak 20%.</p>
     
   </section>

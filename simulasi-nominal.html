@@ -24,16 +24,18 @@
       <p>Hitung kebutuhan nominal penempatan berdasarkan target bunga.</p>
     </div>
     
-    <div class="form-grid">
+    <section class="data-panel">
+  <h2>Data Penempatan</h2>
+  <div class="form-grid">
       <label>Periode Penempatan
         <input id="period" type="month" value="2026-08">
       </label>
 
       <label>Target Bunga Net
-        <div class="stepper">
+        <div class="clean-input">
           <span>Rp</span><input id="targetNet" inputmode="numeric" value="35000000">
-          <button type="button" data-target="-1000000">−</button>
-          <button type="button" data-target="1000000">+</button>
+          
+          
         </div>
       </label>
 
@@ -52,10 +54,10 @@
       </label>
 
       <label>Suku Bunga (% p.a.)
-        <div class="stepper">
+        <div class="clean-input">
           <input id="rateInput" type="number" value="6" step="0.25">
-          <button type="button" data-rate="-0.25">−</button>
-          <button type="button" data-rate="0.25">+</button>
+          
+          
         </div>
       </label>
 
@@ -79,6 +81,7 @@
         <strong id="net"></strong>
       </div>
     </div>
+</section>
     <p class="note">Perhitungan menggunakan target bunga net, rate, tenor aktual, basis 360 hari, dan pajak 20%.</p>
     
   </section>

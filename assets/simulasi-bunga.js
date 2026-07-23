@@ -1,3 +1,3 @@
 const nominal=document.getElementById('nominal'),period=document.getElementById('period');
 function calc(){const n=value('nominal'),m=Number(document.querySelector('.tenor.active').dataset.month),d=actualDays(period.value,m),r=tierRate(n),g=n*(r/100)*(d/360),t=g*.2;days.value=d;rate.value=persen(r);gross.textContent=rupiah(g);tax.textContent='- '+rupiah(t);net.textContent=rupiah(g-t)}
-document.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{nominal.value=Math.max(0,value('nominal')+Number(b.dataset.step));calc()});nominal.oninput=period.oninput=calc;bindTenor(calc);calc();
+calc()});nominal.oninput=period.oninput=calc;bindTenor(calc);calc();

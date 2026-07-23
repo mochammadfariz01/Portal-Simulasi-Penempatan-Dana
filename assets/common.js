@@ -5,3 +5,24 @@ const persen=n=>Number(n).toLocaleString('id-ID',{minimumFractionDigits:2,maximu
 function actualDays(period,months){const [y,m]=period.split('-').map(Number);const a=new Date(Date.UTC(y,m-1,1)),b=new Date(Date.UTC(y,m-1+months,1));return Math.round((b-a)/86400000)}
 function tierRate(n){if(n>=1e9)return 5;if(n>=5e8)return 4.75;if(n>=3e8)return 4.5;if(n>=1e8)return 4.25;if(n>=25e6)return 4;if(n>=1e6)return 3.75;return 0}
 function bindTenor(fn){document.querySelectorAll('.tenor').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tenor').forEach(x=>x.classList.remove('active'));b.classList.add('active');fn()}))}
+
+
+function formatMoneyInput(el){
+  const raw=digits(el.value);
+  if(!raw){el.value='';return;}
+  el.value=Number(raw).toLocaleString('id-ID');
+}
+function attachMoneyInputs(){
+  ['nominal','targetNet'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    formatMoneyInput(el);
+    el.addEventListener('input',()=>{
+      const pos=el.selectionStart;
+      formatMoneyInput(el);
+      try{el.setSelectionRange(el.value.length,el.value.length)}catch(e){}
+    });
+    el.addEventListener('blur',()=>formatMoneyInput(el));
+  });
+}
+document.addEventListener('DOMContentLoaded',attachMoneyInputs);

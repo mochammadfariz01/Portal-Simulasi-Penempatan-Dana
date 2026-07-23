@@ -1,11 +1,15 @@
 # Portal Simulasi Penempatan Dana
 
-Portal GitHub Pages bernuansa oranye, tanpa tombol Save dan Cancel.
+Versi UI modern dengan:
+- Panel **Data Penempatan**
+- Input berbingkai lembut
+- Fokus input berwarna oranye
+- Format nominal otomatis memakai pemisah ribuan
+- Responsif untuk handphone
+- Tanpa tombol plus/minus, Save, dan Cancel
 
-## Halaman
-- Kalkulator Deposito
-- Simulasi Bunga
-- Simulasi Nominal
-- Simulasi Tenor
+Upload seluruh isi folder ke root repository GitHub, lalu jalankan:
 
-Upload seluruh isi folder ke root repository, lalu aktifkan GitHub Pages dari branch `main` dan folder `/(root)`.
+git add .
+git commit -m "Update modern input UI"
+git push
