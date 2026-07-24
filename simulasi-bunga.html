@@ -11,6 +11,7 @@
 .input{display:flex;align-items:center;min-height:58px;border:1.5px solid #cfd8e7;border-radius:16px;background:#fff;overflow:hidden}
 .input:focus-within{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,107,0,.13)}.prefix,.suffix{color:#66728b;font-weight:800;white-space:nowrap}.prefix{padding-left:16px}.suffix{padding-right:16px}
 .input input{width:100%;height:56px;border:0;outline:0;background:transparent;padding:0 12px;font-size:18px;color:#35415a}
+.input input::placeholder,.readonly::placeholder{color:#a5afbf}
 input[type=number]{appearance:textfield;-moz-appearance:textfield}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .tenors{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.tenor{height:54px;border:1px solid #d5deeb;border-radius:13px;background:#f8fafc;color:#526079;font-weight:800;cursor:pointer}
 .tenor.active{border-color:transparent;background:linear-gradient(90deg,var(--orange),#ff9700);color:#fff}
@@ -18,34 +19,91 @@ input[type=number]{appearance:textfield;-moz-appearance:textfield}input[type=num
 .results{margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}.results h3{margin:0 0 14px;color:var(--navy)}
 .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{padding:16px;border:1px solid var(--line);border-radius:16px;background:#f8fafc}
 .card span{display:block;margin-bottom:7px;color:var(--muted);font-size:12px}.card strong{color:var(--navy);font-size:22px;overflow-wrap:anywhere}
-.card.main,.card.net{grid-column:1/-1;background:#fff3e9;border-color:#ffc59b}.card.main strong,.card.net strong{color:#d95600;font-size:27px}
+.card.net{grid-column:1/-1;background:#fff3e9;border-color:#ffc59b}.card.net strong{color:#d95600;font-size:27px}
 .note{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.55}
-@media(max-width:680px){.brand-copy span{display:none}.page{margin-top:18px}.hero{padding:22px 18px}.hero h1{font-size:28px}.panel{padding:18px 14px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.tenors{grid-template-columns:repeat(3,1fr)}.result-grid{grid-template-columns:1fr}.card.main,.card.net{grid-column:auto}.card strong{font-size:20px}.card.main strong,.card.net strong{font-size:24px}}
+@media(max-width:680px){.brand-copy span{display:none}.page{margin-top:18px}.hero{padding:22px 18px}.hero h1{font-size:28px}.panel{padding:18px 14px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.tenors{grid-template-columns:repeat(3,1fr)}.result-grid{grid-template-columns:1fr}.card.net{grid-column:auto}.card strong{font-size:20px}.card.net strong{font-size:24px}}
 </style></head>
 <body>
 <header class="topbar"><div class="topbar-inner"><div class="brand">V2</div><div class="brand-copy"><strong>Portal Simulasi Penempatan Dana</strong><span>Simulasi Bunga</span></div></div></header>
 <main class="page"><section class="hero"><h1>Simulasi Bunga</h1><p>Masukkan periode dan nominal penempatan, lalu pilih tenor untuk memperoleh estimasi bunga otomatis.</p></section>
 <section class="panel"><h2>Data Penempatan</h2><div class="grid">
-<div class="full"><label>Periode Penempatan</label><div class="input"><input id="period" type="month" value="2026-01"></div></div>
-<div class="full"><label>Nominal Penempatan</label><div class="input"><span class="prefix">Rp</span><input id="nominal" inputmode="numeric" value="25.000.000"></div></div>
+<div class="full"><label>Periode Penempatan</label><div class="input"><input id="period" type="month" value=""></div></div>
+<div class="full"><label>Estimasi Nominal Penempatan</label><div class="input"><span class="prefix">Rp</span><input id="nominal" inputmode="numeric" value="" placeholder="Masukkan estimasi nominal penempatan"></div></div>
 <div class="full"><label>Tenor Program</label><div class="tenors">
-<button class="tenor" data-months="1">1 Bulan</button><button class="tenor active" data-months="3">3 Bulan</button><button class="tenor" data-months="6">6 Bulan</button><button class="tenor" data-months="12">12 Bulan</button><button class="tenor" data-months="24">24 Bulan</button>
+<button class="tenor" data-months="1">1 Bulan</button><button class="tenor" data-months="3">3 Bulan</button><button class="tenor" data-months="6">6 Bulan</button><button class="tenor" data-months="12">12 Bulan</button><button class="tenor" data-months="24">24 Bulan</button>
 </div></div>
-<div><label>Tenor Hari</label><input id="days" class="readonly" readonly></div>
-<div><label>Suku Bunga</label><input id="rate" class="readonly" readonly></div>
+<div><label>Tenor Hari</label><input id="days" class="readonly" value="" placeholder="Pilih periode dan tenor" readonly></div>
+<div><label>Suku Bunga</label><input id="rate" class="readonly" value="" placeholder="Menunggu nominal" readonly></div>
 </div>
 <section class="results"><h3>Hasil Simulasi</h3><div class="result-grid">
-<div class="card"><span>Nominal Bunga Gross</span><strong id="gross">Rp 0</strong></div>
-<div class="card"><span>Pajak 20%</span><strong id="tax">Rp 0</strong></div>
-<div class="card net"><span>Nominal Bunga Net</span><strong id="net">Rp 0</strong></div>
+<div class="card"><span>Nominal Bunga Gross</span><strong id="gross">-</strong></div>
+<div class="card"><span>Pajak 20%</span><strong id="tax">-</strong></div>
+<div class="card net"><span>Nominal Bunga Net</span><strong id="net">-</strong></div>
 </div></section>
 <p class="note">Jumlah hari dihitung berdasarkan periode dan tenor. Perhitungan bunga menggunakan basis 365 hari dan pajak 20%.</p></section></main>
 <script>
 const period=document.getElementById('period'),nominal=document.getElementById('nominal'),days=document.getElementById('days'),rate=document.getElementById('rate'),gross=document.getElementById('gross'),tax=document.getElementById('tax'),net=document.getElementById('net'),buttons=[...document.querySelectorAll('.tenor')];
-let months=3; const digits=v=>String(v).replace(/\D/g,''); const rupiah=v=>'Rp '+Math.round(v||0).toLocaleString('id-ID');
-function tier(n){if(n>1000000000)return 5;if(n>500000000)return 4.75;if(n>300000000)return 4.5;if(n>100000000)return 4.25;if(n>25000000)return 4;if(n>=1000000)return 3.75;return 0}
-function lastDay(y,m){return new Date(y,m+1,0)} function tenorDays(p,mths){if(!p)return 0;const [y,m]=p.split('-').map(Number);return Math.round((lastDay(y,m-1+mths)-lastDay(y,m-1))/86400000)}
-function fmt(){const raw=digits(nominal.value);nominal.value=raw?Number(raw).toLocaleString('id-ID'):''}
-function calc(){const n=Number(digits(nominal.value))||0,r=tier(n),d=tenorDays(period.value,months),g=n*(r/100)*(d/365),t=g*.2;days.value=d+' hari';rate.value=r.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+'% p.a.';gross.textContent=rupiah(g);tax.textContent='- '+rupiah(t);net.textContent=rupiah(g-t)}
-nominal.addEventListener('input',()=>{fmt();calc()});period.addEventListener('change',calc);buttons.forEach(b=>b.addEventListener('click',()=>{buttons.forEach(x=>x.classList.remove('active'));b.classList.add('active');months=Number(b.dataset.months);calc()}));fmt();calc();
+let months=0;
+const digits=v=>String(v).replace(/\D/g,'');
+const rupiah=v=>'Rp '+Math.round(v||0).toLocaleString('id-ID');
+
+function tier(n){
+  if(n>1000000000)return 5;
+  if(n>500000000)return 4.75;
+  if(n>300000000)return 4.5;
+  if(n>100000000)return 4.25;
+  if(n>25000000)return 4;
+  if(n>=1000000)return 3.75;
+  return 0;
+}
+
+function lastDay(y,m){return new Date(y,m+1,0)}
+
+function tenorDays(p,mths){
+  if(!p||!mths)return 0;
+  const [y,m]=p.split('-').map(Number);
+  return Math.round((lastDay(y,m-1+mths)-lastDay(y,m-1))/86400000);
+}
+
+function fmt(){
+  const raw=digits(nominal.value);
+  nominal.value=raw?Number(raw).toLocaleString('id-ID'):'';
+}
+
+function resetResults(){
+  gross.textContent='-';
+  tax.textContent='-';
+  net.textContent='-';
+}
+
+function calc(){
+  const n=Number(digits(nominal.value))||0;
+  const r=tier(n);
+  const d=tenorDays(period.value,months);
+
+  days.value=d?d+' hari':'';
+  rate.value=r?r.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+'% p.a.':'';
+
+  if(!period.value||!months||!n||!r){
+    resetResults();
+    return;
+  }
+
+  const g=n*(r/100)*(d/365);
+  const t=g*.2;
+
+  gross.textContent=rupiah(g);
+  tax.textContent='- '+rupiah(t);
+  net.textContent=rupiah(g-t);
+}
+
+nominal.addEventListener('input',()=>{fmt();calc()});
+period.addEventListener('change',calc);
+
+buttons.forEach(b=>b.addEventListener('click',()=>{
+  buttons.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  months=Number(b.dataset.months);
+  calc();
+}));
 </script></body></html>
