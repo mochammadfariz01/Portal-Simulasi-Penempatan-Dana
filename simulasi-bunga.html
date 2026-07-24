@@ -1,109 +1,831 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulasi Bunga</title><style>
-:root{--orange:#ff6b00;--orange2:#ff9b32;--navy:#07245f;--text:#27324b;--muted:#6f7b93;--line:#dfe6f1;--bg:#f3f6fb}
-*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
-.topbar{background:#fff;border-bottom:1px solid var(--line)}.topbar-inner{width:min(980px,calc(100% - 28px));height:68px;margin:auto;display:flex;align-items:center;gap:12px}
-.brand{width:44px;height:44px;border:3px solid #ff9a00;border-radius:50%;display:grid;place-items:center;color:var(--orange);font-weight:900}
-.brand-copy strong{display:block;color:var(--navy)}.brand-copy span{font-size:12px;color:var(--muted)}
-.page{width:min(820px,calc(100% - 28px));margin:28px auto 60px}.hero{padding:26px;border-radius:22px;color:#fff;background:linear-gradient(120deg,var(--orange),var(--orange2));margin-bottom:20px}
-.hero h1{margin:0 0 8px;font-size:34px}.hero p{margin:0;line-height:1.55}
-.panel{padding:26px;background:#fff;border:1px solid var(--line);border-radius:22px}.panel h2{margin:0 0 22px;color:var(--navy)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.full{grid-column:1/-1}label{display:block;margin-bottom:9px;color:var(--navy);font-size:14px;font-weight:800}
-.input{display:flex;align-items:center;min-height:58px;border:1.5px solid #cfd8e7;border-radius:16px;background:#fff;overflow:hidden}
-.input:focus-within{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,107,0,.13)}.prefix,.suffix{color:#66728b;font-weight:800;white-space:nowrap}.prefix{padding-left:16px}.suffix{padding-right:16px}
-.input input{width:100%;height:56px;border:0;outline:0;background:transparent;padding:0 12px;font-size:18px;color:#35415a}
-.input input::placeholder,.readonly::placeholder{color:#a5afbf}
-input[type=number]{appearance:textfield;-moz-appearance:textfield}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-.tenors{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.tenor{height:54px;border:1px solid #d5deeb;border-radius:13px;background:#f8fafc;color:#526079;font-weight:800;cursor:pointer}
-.tenor.active{border-color:transparent;background:linear-gradient(90deg,var(--orange),#ff9700);color:#fff}
-.readonly{width:100%;min-height:58px;border:1.5px solid var(--line);border-radius:16px;background:#f7f9fc;padding:0 16px;color:#5c6880;font-size:18px}
-.results{margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}.results h3{margin:0 0 14px;color:var(--navy)}
-.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{padding:16px;border:1px solid var(--line);border-radius:16px;background:#f8fafc}
-.card span{display:block;margin-bottom:7px;color:var(--muted);font-size:12px}.card strong{color:var(--navy);font-size:22px;overflow-wrap:anywhere}
-.card.net{grid-column:1/-1;background:#fff3e9;border-color:#ffc59b}.card.net strong{color:#d95600;font-size:27px}
-.note{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.55}
-@media(max-width:680px){.brand-copy span{display:none}.page{margin-top:18px}.hero{padding:22px 18px}.hero h1{font-size:28px}.panel{padding:18px 14px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.tenors{grid-template-columns:repeat(3,1fr)}.result-grid{grid-template-columns:1fr}.card.net{grid-column:auto}.card strong{font-size:20px}.card.net strong{font-size:24px}}
-</style></head>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulasi Bunga</title>
+
+  <style>
+    :root{
+      --orange:#ff6b00;
+      --orange-2:#ff9b32;
+      --orange-soft:#fff3e9;
+      --navy:#07245f;
+      --text:#27324b;
+      --muted:#6f7b93;
+      --line:#dfe6f1;
+      --bg:#f3f6fb;
+      --white:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:"Segoe UI",Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    button,input{font:inherit}
+
+    .topbar{
+      background:var(--white);
+      border-bottom:1px solid var(--line);
+    }
+
+    .topbar-inner{
+      width:min(980px,calc(100% - 28px));
+      height:68px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand{
+      width:44px;
+      height:44px;
+      border:3px solid #ff9a00;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:var(--orange);
+      font-weight:900;
+      background:#fff;
+    }
+
+    .brand-copy strong{
+      display:block;
+      color:var(--navy);
+    }
+
+    .brand-copy span{
+      display:block;
+      margin-top:3px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .page{
+      width:min(820px,calc(100% - 28px));
+      margin:28px auto 60px;
+    }
+
+    .hero{
+      padding:26px;
+      border-radius:22px;
+      color:#fff;
+      background:linear-gradient(120deg,var(--orange),var(--orange-2));
+      margin-bottom:20px;
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      font-size:34px;
+    }
+
+    .hero p{
+      margin:0;
+      line-height:1.55;
+    }
+
+    .panel{
+      padding:26px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+    }
+
+    .panel h2{
+      margin:0 0 22px;
+      color:var(--navy);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .full{grid-column:1 / -1}
+
+    label{
+      display:block;
+      margin-bottom:9px;
+      color:var(--navy);
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .input{
+      display:flex;
+      align-items:center;
+      min-height:58px;
+      border:1.5px solid #cfd8e7;
+      border-radius:16px;
+      background:#fff;
+      overflow:hidden;
+      transition:.18s ease;
+    }
+
+    .input:focus-within{
+      border-color:var(--orange);
+      box-shadow:0 0 0 4px rgba(255,107,0,.13);
+    }
+
+    .input input{
+      width:100%;
+      height:56px;
+      border:0;
+      outline:0;
+      background:transparent;
+      padding:0 12px;
+      font-size:18px;
+      color:#35415a;
+    }
+
+    .input input::placeholder,
+    .readonly::placeholder{
+      color:#a5afbf;
+    }
+
+    .prefix{
+      padding-left:16px;
+      color:#66728b;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .tenors{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+    }
+
+    .tenor{
+      height:54px;
+      border:1px solid #d5deeb;
+      border-radius:13px;
+      background:#f8fafc;
+      color:#526079;
+      font-weight:800;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .tenor:hover{
+      border-color:#ffb47e;
+      transform:translateY(-1px);
+    }
+
+    .tenor.active{
+      border-color:transparent;
+      background:linear-gradient(90deg,var(--orange),#ff9700);
+      color:#fff;
+      box-shadow:0 8px 18px rgba(255,107,0,.18);
+    }
+
+    .readonly{
+      width:100%;
+      min-height:58px;
+      border:1.5px solid var(--line);
+      border-radius:16px;
+      background:#f7f9fc;
+      padding:0 16px;
+      color:#5c6880;
+      font-size:18px;
+    }
+
+    .results{
+      margin-top:24px;
+      padding-top:24px;
+      border-top:1px solid var(--line);
+    }
+
+    .results h3{
+      margin:0 0 14px;
+      color:var(--navy);
+    }
+
+    .result-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .card{
+      padding:16px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#f8fafc;
+    }
+
+    .card span{
+      display:block;
+      margin-bottom:7px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .card strong{
+      display:block;
+      color:var(--navy);
+      font-size:22px;
+      overflow-wrap:anywhere;
+    }
+
+    .card.net{
+      grid-column:1 / -1;
+      background:var(--orange-soft);
+      border-color:#ffc59b;
+    }
+
+    .card.net strong{
+      color:#d95600;
+      font-size:27px;
+    }
+
+    .note{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.55;
+    }
+
+    /* CUSTOM MONTH PICKER */
+    .month-field{position:relative}
+
+    .month-display{
+      width:100%;
+      height:58px;
+      border:1.5px solid #cfd8e7;
+      border-radius:16px;
+      background:#fff;
+      padding:0 54px 0 16px;
+      font-size:18px;
+      color:#35415a;
+      text-align:left;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .month-display:hover,
+    .month-display:focus{
+      border-color:var(--orange);
+      outline:none;
+      box-shadow:0 0 0 4px rgba(255,107,0,.13);
+    }
+
+    .month-display.placeholder{color:#a5afbf}
+
+    .calendar-icon{
+      position:absolute;
+      right:18px;
+      top:29px;
+      transform:translateY(-50%);
+      pointer-events:none;
+      color:#1f2937;
+      width:22px;
+      height:22px;
+    }
+
+    .month-picker{
+      display:none;
+      position:absolute;
+      top:66px;
+      left:0;
+      z-index:30;
+      width:310px;
+      padding:14px;
+      border:1px solid #cfd8e7;
+      border-radius:14px;
+      background:#fff;
+      box-shadow:0 16px 36px rgba(7,36,95,.16);
+    }
+
+    .month-picker.open{display:block}
+
+    .picker-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
+    }
+
+    .year-btn{
+      width:34px;
+      height:34px;
+      border:1px solid var(--line);
+      border-radius:9px;
+      background:#f8fafc;
+      cursor:pointer;
+      font-size:18px;
+      color:var(--navy);
+    }
+
+    .year-label{
+      font-weight:800;
+      color:var(--navy);
+    }
+
+    .month-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+    }
+
+    .month-option{
+      height:42px;
+      border:1px solid transparent;
+      border-radius:10px;
+      background:#f8fafc;
+      cursor:pointer;
+      font-weight:700;
+      color:#35415a;
+    }
+
+    .month-option:hover{border-color:#ffb47e}
+
+    .month-option.selected{
+      background:var(--orange);
+      color:#fff;
+    }
+
+    .picker-actions{
+      display:flex;
+      justify-content:space-between;
+      margin-top:12px;
+    }
+
+    .text-btn{
+      border:0;
+      background:transparent;
+      color:#0a67d8;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    @media(max-width:680px){
+      .brand-copy span{display:none}
+      .page{margin-top:18px}
+      .hero{padding:22px 18px}
+      .hero h1{font-size:28px}
+      .panel{padding:18px 14px}
+      .grid{grid-template-columns:1fr}
+      .full{grid-column:auto}
+      .tenors{grid-template-columns:repeat(3,1fr)}
+      .result-grid{grid-template-columns:1fr}
+      .card.net{grid-column:auto}
+      .card strong{font-size:20px}
+      .card.net strong{font-size:24px}
+      .month-picker{width:min(310px,calc(100vw - 56px))}
+    }
+  </style>
+</head>
+
 <body>
-<header class="topbar"><div class="topbar-inner"><div class="brand">V2</div><div class="brand-copy"><strong>Portal Simulasi Penempatan Dana</strong><span>Simulasi Bunga</span></div></div></header>
-<main class="page"><section class="hero"><h1>Simulasi Bunga</h1><p>Masukkan periode dan nominal penempatan, lalu pilih tenor untuk memperoleh estimasi bunga otomatis.</p></section>
-<section class="panel"><h2>Data Penempatan</h2><div class="grid">
-<div class="full"><label>Periode Penempatan</label><div class="input"><input id="period" type="month" value=""></div></div>
-<div class="full"><label>Estimasi Nominal Penempatan</label><div class="input"><span class="prefix">Rp</span><input id="nominal" inputmode="numeric" value="" placeholder="Masukkan estimasi nominal penempatan"></div></div>
-<div class="full"><label>Tenor Program</label><div class="tenors">
-<button class="tenor" data-months="1">1 Bulan</button><button class="tenor" data-months="3">3 Bulan</button><button class="tenor" data-months="6">6 Bulan</button><button class="tenor" data-months="12">12 Bulan</button><button class="tenor" data-months="24">24 Bulan</button>
-</div></div>
-<div><label>Tenor Hari</label><input id="days" class="readonly" value="" placeholder="Pilih periode dan tenor" readonly></div>
-<div><label>Suku Bunga</label><input id="rate" class="readonly" value="" placeholder="Menunggu nominal" readonly></div>
-</div>
-<section class="results"><h3>Hasil Simulasi</h3><div class="result-grid">
-<div class="card"><span>Nominal Bunga Gross</span><strong id="gross">-</strong></div>
-<div class="card"><span>Pajak 20%</span><strong id="tax">-</strong></div>
-<div class="card net"><span>Nominal Bunga Net</span><strong id="net">-</strong></div>
-</div></section>
-<p class="note">Jumlah hari dihitung berdasarkan periode dan tenor. Perhitungan bunga menggunakan basis 365 hari dan pajak 20%.</p></section></main>
-<script>
-const period=document.getElementById('period'),nominal=document.getElementById('nominal'),days=document.getElementById('days'),rate=document.getElementById('rate'),gross=document.getElementById('gross'),tax=document.getElementById('tax'),net=document.getElementById('net'),buttons=[...document.querySelectorAll('.tenor')];
-let months=0;
-const digits=v=>String(v).replace(/\D/g,'');
-const rupiah=v=>'Rp '+Math.round(v||0).toLocaleString('id-ID');
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">V2</div>
 
-function tier(n){
-  if(n>1000000000)return 5;
-  if(n>500000000)return 4.75;
-  if(n>300000000)return 4.5;
-  if(n>100000000)return 4.25;
-  if(n>25000000)return 4;
-  if(n>=1000000)return 3.75;
-  return 0;
-}
+      <div class="brand-copy">
+        <strong>Portal Simulasi Penempatan Dana</strong>
+        <span>Simulasi Bunga</span>
+      </div>
+    </div>
+  </header>
 
-function lastDay(y,m){return new Date(y,m+1,0)}
+  <main class="page">
+    <section class="hero">
+      <h1>Simulasi Bunga</h1>
+      <p>
+        Hitung estimasi bunga berdasarkan periode, nominal penempatan,
+        tenor program, dan tiering suku bunga.
+      </p>
+    </section>
 
-function tenorDays(p,mths){
-  if(!p||!mths)return 0;
-  const [y,m]=p.split('-').map(Number);
-  return Math.round((lastDay(y,m-1+mths)-lastDay(y,m-1))/86400000);
-}
+    <section class="panel">
+      <h2>Data Penempatan</h2>
 
-function fmt(){
-  const raw=digits(nominal.value);
-  nominal.value=raw?Number(raw).toLocaleString('id-ID'):'';
-}
+      <div class="grid">
+        <div class="full">
+          <label>Periode Penempatan</label>
 
-function resetResults(){
-  gross.textContent='-';
-  tax.textContent='-';
-  net.textContent='-';
-}
+          <div class="month-field" id="monthField">
+            <button
+              type="button"
+              id="monthDisplay"
+              class="month-display placeholder"
+              aria-haspopup="dialog"
+              aria-expanded="false"
+            >
+              Pilih Periode Penempatan
+            </button>
 
-function calc(){
-  const n=Number(digits(nominal.value))||0;
-  const r=tier(n);
-  const d=tenorDays(period.value,months);
+            <svg
+              class="calendar-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+              <path d="M16 3v4M8 3v4M3 10h18"></path>
+            </svg>
 
-  days.value=d?d+' hari':'';
-  rate.value=r?r.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+'% p.a.':'';
+            <div
+              id="monthPicker"
+              class="month-picker"
+              role="dialog"
+              aria-label="Pilih periode penempatan"
+            >
+              <div class="picker-head">
+                <button type="button" class="year-btn" id="prevYear" aria-label="Tahun sebelumnya">‹</button>
+                <div class="year-label" id="yearLabel">2026</div>
+                <button type="button" class="year-btn" id="nextYear" aria-label="Tahun berikutnya">›</button>
+              </div>
 
-  if(!period.value||!months||!n||!r){
+              <div class="month-grid" id="monthGrid"></div>
+
+              <div class="picker-actions">
+                <button type="button" class="text-btn" id="clearMonth">Hapus</button>
+                <button type="button" class="text-btn" id="thisMonth">Bulan ini</button>
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" id="period" value="">
+        </div>
+
+        <div class="full">
+          <label for="nominal">Estimasi Nominal Penempatan</label>
+
+          <div class="input">
+            <span class="prefix">Rp</span>
+
+            <input
+              id="nominal"
+              type="text"
+              inputmode="numeric"
+              value=""
+              placeholder="Masukkan estimasi nominal penempatan"
+              autocomplete="off"
+            >
+          </div>
+        </div>
+
+        <div class="full">
+          <label>Tenor Program</label>
+
+          <div class="tenors">
+            <button type="button" class="tenor" data-months="1">1 Bulan</button>
+            <button type="button" class="tenor" data-months="3">3 Bulan</button>
+            <button type="button" class="tenor" data-months="6">6 Bulan</button>
+            <button type="button" class="tenor" data-months="12">12 Bulan</button>
+            <button type="button" class="tenor" data-months="24">24 Bulan</button>
+          </div>
+        </div>
+
+        <div>
+          <label for="days">Tenor Hari</label>
+
+          <input
+            id="days"
+            class="readonly"
+            value=""
+            placeholder="Pilih periode dan tenor"
+            readonly
+          >
+        </div>
+
+        <div>
+          <label for="rate">Suku Bunga</label>
+
+          <input
+            id="rate"
+            class="readonly"
+            value=""
+            placeholder="Menunggu nominal"
+            readonly
+          >
+        </div>
+      </div>
+
+      <section class="results">
+        <h3>Hasil Simulasi</h3>
+
+        <div class="result-grid">
+          <div class="card">
+            <span>Nominal Bunga Gross</span>
+            <strong id="gross">-</strong>
+          </div>
+
+          <div class="card">
+            <span>Pajak 20%</span>
+            <strong id="tax">-</strong>
+          </div>
+
+          <div class="card net">
+            <span>Nominal Bunga Net</span>
+            <strong id="net">-</strong>
+          </div>
+        </div>
+      </section>
+
+      <p class="note">
+        Jumlah hari dihitung dari akhir bulan periode penempatan hingga akhir
+        bulan sesuai tenor. Perhitungan menggunakan basis 365 hari dan pajak
+        bunga sebesar 20%.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const period = document.getElementById("period");
+    const nominal = document.getElementById("nominal");
+    const days = document.getElementById("days");
+    const rate = document.getElementById("rate");
+    const gross = document.getElementById("gross");
+    const tax = document.getElementById("tax");
+    const net = document.getElementById("net");
+
+    const tenorButtons = [
+      ...document.querySelectorAll(".tenor")
+    ];
+
+    const monthField = document.getElementById("monthField");
+    const monthDisplay = document.getElementById("monthDisplay");
+    const monthPicker = document.getElementById("monthPicker");
+    const monthGrid = document.getElementById("monthGrid");
+    const yearLabel = document.getElementById("yearLabel");
+    const prevYear = document.getElementById("prevYear");
+    const nextYear = document.getElementById("nextYear");
+    const clearMonth = document.getElementById("clearMonth");
+    const thisMonth = document.getElementById("thisMonth");
+
+    const monthShort = [
+      "Jan","Feb","Mar","Apr","Mei","Jun",
+      "Jul","Agu","Sep","Okt","Nov","Des"
+    ];
+
+    const monthFull = [
+      "Januari","Februari","Maret","April","Mei","Juni",
+      "Juli","Agustus","September","Oktober","November","Desember"
+    ];
+
+    let tenorMonths = 0;
+    let pickerYear = new Date().getFullYear();
+    let selectedYear = null;
+    let selectedMonth = null;
+
+    function onlyDigits(value){
+      return String(value).replace(/\D/g,"");
+    }
+
+    function formatRupiah(value){
+      return "Rp " + Math.round(value || 0).toLocaleString("id-ID");
+    }
+
+    function getTierRate(nominalValue){
+      if(nominalValue > 1000000000) return 5.00;
+      if(nominalValue > 500000000) return 4.75;
+      if(nominalValue > 300000000) return 4.50;
+      if(nominalValue > 100000000) return 4.25;
+      if(nominalValue > 25000000) return 4.00;
+      if(nominalValue >= 1000000) return 3.75;
+      return 0;
+    }
+
+    function getLastDay(year,monthIndex){
+      return new Date(year,monthIndex + 1,0);
+    }
+
+    function calculateTenorDays(periodValue,months){
+      if(!periodValue || !months){
+        return 0;
+      }
+
+      const [year,month] = periodValue
+        .split("-")
+        .map(Number);
+
+      const startDate = getLastDay(year,month - 1);
+      const endDate = getLastDay(year,month - 1 + months);
+
+      return Math.round(
+        (endDate - startDate) / 86400000
+      );
+    }
+
+    function formatNominalInput(){
+      const raw = onlyDigits(nominal.value);
+
+      nominal.value = raw
+        ? Number(raw).toLocaleString("id-ID")
+        : "";
+    }
+
+    function resetResults(){
+      gross.textContent = "-";
+      tax.textContent = "-";
+      net.textContent = "-";
+    }
+
+    function calculate(){
+      const nominalValue =
+        Number(onlyDigits(nominal.value)) || 0;
+
+      const annualRate =
+        getTierRate(nominalValue);
+
+      const tenorDay =
+        calculateTenorDays(period.value,tenorMonths);
+
+      days.value = tenorDay
+        ? tenorDay + " hari"
+        : "";
+
+      rate.value = annualRate
+        ? annualRate.toLocaleString("id-ID",{
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+          }) + "% p.a."
+        : "";
+
+      if(
+        !period.value ||
+        !tenorMonths ||
+        !nominalValue ||
+        !annualRate ||
+        !tenorDay
+      ){
+        resetResults();
+        return;
+      }
+
+      const grossValue =
+        nominalValue *
+        (annualRate / 100) *
+        (tenorDay / 365);
+
+      const taxValue =
+        grossValue * 0.20;
+
+      const netValue =
+        grossValue - taxValue;
+
+      gross.textContent =
+        formatRupiah(grossValue);
+
+      tax.textContent =
+        "- " + formatRupiah(taxValue);
+
+      net.textContent =
+        formatRupiah(netValue);
+    }
+
+    function renderMonths(){
+      yearLabel.textContent = pickerYear;
+      monthGrid.innerHTML = "";
+
+      monthShort.forEach((monthName,index)=>{
+        const button =
+          document.createElement("button");
+
+        button.type = "button";
+        button.className = "month-option";
+        button.textContent = monthName;
+
+        if(
+          selectedYear === pickerYear &&
+          selectedMonth === index + 1
+        ){
+          button.classList.add("selected");
+        }
+
+        button.addEventListener("click",()=>{
+          selectedYear = pickerYear;
+          selectedMonth = index + 1;
+
+          period.value =
+            selectedYear +
+            "-" +
+            String(selectedMonth).padStart(2,"0");
+
+          monthDisplay.textContent =
+            monthFull[index] +
+            " " +
+            selectedYear;
+
+          monthDisplay.classList.remove("placeholder");
+          closeMonthPicker();
+          calculate();
+        });
+
+        monthGrid.appendChild(button);
+      });
+    }
+
+    function openMonthPicker(){
+      monthPicker.classList.add("open");
+      monthDisplay.setAttribute("aria-expanded","true");
+    }
+
+    function closeMonthPicker(){
+      monthPicker.classList.remove("open");
+      monthDisplay.setAttribute("aria-expanded","false");
+    }
+
+    monthDisplay.addEventListener("click",()=>{
+      if(monthPicker.classList.contains("open")){
+        closeMonthPicker();
+      }else{
+        openMonthPicker();
+      }
+    });
+
+    prevYear.addEventListener("click",()=>{
+      pickerYear--;
+      renderMonths();
+    });
+
+    nextYear.addEventListener("click",()=>{
+      pickerYear++;
+      renderMonths();
+    });
+
+    clearMonth.addEventListener("click",()=>{
+      selectedYear = null;
+      selectedMonth = null;
+      period.value = "";
+
+      monthDisplay.textContent =
+        "Pilih Periode Penempatan";
+
+      monthDisplay.classList.add("placeholder");
+
+      closeMonthPicker();
+      calculate();
+    });
+
+    thisMonth.addEventListener("click",()=>{
+      const today = new Date();
+
+      pickerYear = today.getFullYear();
+      selectedYear = pickerYear;
+      selectedMonth = today.getMonth() + 1;
+
+      period.value =
+        selectedYear +
+        "-" +
+        String(selectedMonth).padStart(2,"0");
+
+      monthDisplay.textContent =
+        monthFull[selectedMonth - 1] +
+        " " +
+        selectedYear;
+
+      monthDisplay.classList.remove("placeholder");
+
+      closeMonthPicker();
+      renderMonths();
+      calculate();
+    });
+
+    document.addEventListener("click",event=>{
+      if(!monthField.contains(event.target)){
+        closeMonthPicker();
+      }
+    });
+
+    document.addEventListener("keydown",event=>{
+      if(event.key === "Escape"){
+        closeMonthPicker();
+      }
+    });
+
+    nominal.addEventListener("input",()=>{
+      formatNominalInput();
+      calculate();
+    });
+
+    tenorButtons.forEach(button=>{
+      button.addEventListener("click",()=>{
+        tenorButtons.forEach(item=>{
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        tenorMonths = Number(button.dataset.months);
+
+        calculate();
+      });
+    });
+
+    renderMonths();
     resetResults();
-    return;
-  }
-
-  const g=n*(r/100)*(d/365);
-  const t=g*.2;
-
-  gross.textContent=rupiah(g);
-  tax.textContent='- '+rupiah(t);
-  net.textContent=rupiah(g-t);
-}
-
-nominal.addEventListener('input',()=>{fmt();calc()});
-period.addEventListener('change',calc);
-
-buttons.forEach(b=>b.addEventListener('click',()=>{
-  buttons.forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  months=Number(b.dataset.months);
-  calc();
-}));
-</script></body></html>
+  </script>
+</body>
+</html>
