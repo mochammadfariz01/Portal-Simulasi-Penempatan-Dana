@@ -357,14 +357,14 @@
           <label for="nominal">Estimasi Nominal Penempatan</label>
           <div class="input-wrap">
             <span class="prefix">Rp</span>
-            <input id="nominal" inputmode="numeric" value="100.000.000" autocomplete="off" />
+            <input id="nominal" inputmode="numeric" value="" placeholder="Masukkan nominal penempatan" autocomplete="off" />
           </div>
         </div>
 
         <div class="field full">
           <label for="rate">Suku Bunga (% p.a.)</label>
           <div class="input-wrap">
-            <input id="rate" type="number" value="5" step="0.01" min="0" />
+            <input id="rate" type="number" value="" placeholder="Masukkan suku bunga" step="0.01" min="0" />
             <span class="suffix">% p.a.</span>
           </div>
         </div>
@@ -372,7 +372,7 @@
         <div class="field full">
           <label>Tenor</label>
           <div class="tenor-grid">
-            <button type="button" class="tenor-btn active" data-days="30">1 Bulan</button>
+            <button type="button" class="tenor-btn" data-days="30">1 Bulan</button>
             <button type="button" class="tenor-btn" data-days="90">3 Bulan</button>
             <button type="button" class="tenor-btn" data-days="180">6 Bulan</button>
             <button type="button" class="tenor-btn" data-days="365">12 Bulan</button>
@@ -381,7 +381,7 @@
 
         <div class="field full">
           <label for="days">Jumlah Hari</label>
-          <input id="days" class="readonly" value="30 hari" readonly />
+          <input id="days" class="readonly" value="" placeholder="Pilih tenor" readonly />
         </div>
       </div>
 
@@ -390,22 +390,22 @@
         <div class="result-grid">
           <div class="result-card">
             <span>Estimasi Bunga Bruto</span>
-            <strong id="gross">Rp 0</strong>
+            <strong id="gross">-</strong>
           </div>
 
           <div class="result-card">
             <span>Estimasi Pajak 20%</span>
-            <strong id="tax">Rp 0</strong>
+            <strong id="tax">-</strong>
           </div>
 
           <div class="result-card">
             <span>Estimasi Bunga Bersih</span>
-            <strong id="net">Rp 0</strong>
+            <strong id="net">-</strong>
           </div>
 
           <div class="result-card total">
             <span>Estimasi Dana Jatuh Tempo</span>
-            <strong id="total">Rp 0</strong>
+            <strong id="total">-</strong>
           </div>
         </div>
       </section>
@@ -424,7 +424,7 @@
     const totalEl = document.getElementById('total');
     const tenorButtons = [...document.querySelectorAll('.tenor-btn')];
 
-    let selectedDays = 30;
+    let selectedDays = 0;
 
     function onlyDigits(value){
       return String(value).replace(/\D/g,'');
@@ -443,16 +443,29 @@
       nominalInput.value = raw ? formatNumber(raw) : '';
     }
 
+    function resetResults(){
+      grossEl.textContent = '-';
+      taxEl.textContent = '-';
+      netEl.textContent = '-';
+      totalEl.textContent = '-';
+    }
+
     function calculate(){
       const nominal = Number(onlyDigits(nominalInput.value)) || 0;
       const rate = Number(rateInput.value) || 0;
+
+      daysInput.value = selectedDays ? selectedDays + ' hari' : '';
+
+      if(!nominal || !rate || !selectedDays){
+        resetResults();
+        return;
+      }
 
       const gross = nominal * (rate / 100) * (selectedDays / 365);
       const tax = gross * 0.20;
       const net = gross - tax;
       const total = nominal + net;
 
-      daysInput.value = selectedDays + ' hari';
       grossEl.textContent = rupiah(gross);
       taxEl.textContent = rupiah(tax);
       netEl.textContent = rupiah(net);
@@ -475,8 +488,7 @@
       });
     });
 
-    formatNominalInput();
-    calculate();
+
   </script>
 </body>
 </html>
