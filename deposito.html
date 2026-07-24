@@ -1,77 +1,482 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kalkulator Deposito</title>
-  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    :root{
+      --orange:#ff6b00;
+      --orange-dark:#d95600;
+      --orange-soft:#fff3e9;
+      --navy:#07245f;
+      --text:#27324b;
+      --muted:#6f7b93;
+      --line:#dfe6f1;
+      --bg:#f3f6fb;
+      --white:#ffffff;
+      --shadow:0 18px 45px rgba(26,51,95,.10);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background:var(--bg);
+    }
+
+    .topbar{
+      background:var(--white);
+      border-bottom:1px solid var(--line);
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+
+    .topbar-inner{
+      width:min(980px,calc(100% - 28px));
+      height:72px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand{
+      width:44px;
+      height:44px;
+      border:3px solid #ff9a00;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:var(--orange);
+      font-weight:900;
+      background:#fff;
+    }
+
+    .brand-copy strong{
+      display:block;
+      color:var(--navy);
+      font-size:16px;
+    }
+
+    .brand-copy span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .page{
+      width:min(820px,calc(100% - 28px));
+      margin:34px auto 60px;
+    }
+
+    .hero-card{
+      background:linear-gradient(120deg,var(--orange),#ff9b32);
+      color:#fff;
+      border-radius:24px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .hero-card h1{
+      margin:0 0 8px;
+      font-size:34px;
+      line-height:1.1;
+    }
+
+    .hero-card p{
+      margin:0;
+      font-size:15px;
+      line-height:1.55;
+      max-width:640px;
+    }
+
+    .panel{
+      background:var(--white);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:26px;
+    }
+
+    .panel-title{
+      margin:0 0 22px;
+      color:var(--navy);
+      font-size:22px;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      display:block;
+      margin-bottom:9px;
+      font-size:14px;
+      font-weight:800;
+      color:var(--navy);
+    }
+
+    .input-wrap{
+      display:flex;
+      align-items:center;
+      min-height:58px;
+      border:1.5px solid #cfd8e7;
+      border-radius:16px;
+      background:#fff;
+      transition:.18s ease;
+      overflow:hidden;
+    }
+
+    .input-wrap:focus-within{
+      border-color:var(--orange);
+      box-shadow:0 0 0 4px rgba(255,107,0,.13);
+    }
+
+    .prefix,.suffix{
+      color:#66728b;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .prefix{padding-left:16px}
+    .suffix{padding-right:16px}
+
+    .input-wrap input{
+      width:100%;
+      min-width:0;
+      border:0;
+      outline:0;
+      background:transparent;
+      padding:0 12px;
+      font-size:18px;
+      color:#35415a;
+      height:56px;
+    }
+
+    input[type="number"]{
+      appearance:textfield;
+      -moz-appearance:textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button{
+      -webkit-appearance:none;
+      margin:0;
+    }
+
+    .tenor-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+
+    .tenor-btn{
+      height:54px;
+      border:1px solid #d5deeb;
+      border-radius:13px;
+      background:#f8fafc;
+      color:#526079;
+      font-weight:800;
+      font-size:14px;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .tenor-btn:hover{
+      border-color:#ffb47e;
+      transform:translateY(-1px);
+    }
+
+    .tenor-btn.active{
+      border-color:transparent;
+      background:linear-gradient(90deg,var(--orange),#ff9700);
+      color:#fff;
+      box-shadow:0 9px 18px rgba(255,107,0,.20);
+    }
+
+    .readonly{
+      width:100%;
+      min-height:58px;
+      border:1.5px solid var(--line);
+      border-radius:16px;
+      background:#f7f9fc;
+      padding:0 16px;
+      color:#5c6880;
+      font-size:18px;
+    }
+
+    .result-section{
+      margin-top:24px;
+      padding-top:24px;
+      border-top:1px solid var(--line);
+    }
+
+    .result-title{
+      margin:0 0 14px;
+      color:var(--navy);
+      font-size:20px;
+    }
+
+    .result-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+
+    .result-card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      background:#f8fafc;
+    }
+
+    .result-card span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:7px;
+    }
+
+    .result-card strong{
+      display:block;
+      color:var(--navy);
+      font-size:22px;
+      overflow-wrap:anywhere;
+    }
+
+    .result-card.total{
+      grid-column:1 / -1;
+      background:var(--orange-soft);
+      border-color:#ffc59b;
+    }
+
+    .result-card.total strong{
+      color:var(--orange-dark);
+      font-size:27px;
+    }
+
+    .note{
+      margin:18px 2px 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.55;
+    }
+
+    @media(max-width:680px){
+      .topbar-inner{
+        height:64px;
+      }
+
+      .brand-copy span{
+        display:none;
+      }
+
+      .page{
+        margin-top:18px;
+      }
+
+      .hero-card{
+        padding:22px 18px;
+        border-radius:18px;
+      }
+
+      .hero-card h1{
+        font-size:28px;
+      }
+
+      .panel{
+        padding:18px 14px;
+        border-radius:18px;
+      }
+
+      .form-grid{
+        grid-template-columns:1fr;
+        gap:16px;
+      }
+
+      .field.full{
+        grid-column:auto;
+      }
+
+      .tenor-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .result-grid{
+        grid-template-columns:1fr;
+      }
+
+      .result-card.total{
+        grid-column:auto;
+      }
+
+      .result-card strong{
+        font-size:20px;
+      }
+
+      .result-card.total strong{
+        font-size:24px;
+      }
+    }
+  </style>
 </head>
-<body class="calc-body">
-<header class="topbar">
-  <div class="page-wrap topbar-inner">
-    <a class="back" href="index.html" aria-label="Kembali">←</a>
-    <div class="mini-brand">S</div>
-    <div>
-      <strong>Portal Simulasi Penempatan Dana</strong>
-      <span>Hitung estimasi bunga bersih dan total dana saat jatuh tempo.</span>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">VELTO2</div>
+      <div class="brand-copy">
+        <strong>Portal Simulasi Penempatan Dana</strong>
+        <span>Kalkulator Deposito</span>
+      </div>
     </div>
-  </div>
-</header>
-<main class="page-wrap calc-page">
-  <section class="calc-card">
-    <div class="calc-title">
+  </header>
+
+  <main class="page">
+    <section class="hero-card">
       <h1>Kalkulator Deposito</h1>
-      <p>Hitung estimasi bunga bersih dan total dana saat jatuh tempo.</p>
-    </div>
-    
-    <section class="data-panel">
-  <h2>Data Penempatan</h2>
-  <div class="form-grid">
-      <label>Nominal Penempatan
-        <div class="clean-input">
-          <span>Rp</span><input id="nominal" inputmode="numeric" value="50000000">
-          
-          
+      <p>Masukkan nominal penempatan dan suku bunga, kemudian pilih tenor untuk melihat estimasi hasil deposito.</p>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel-title">Data Penempatan</h2>
+
+      <div class="form-grid">
+        <div class="field full">
+          <label for="nominal">Nominal Penempatan</label>
+          <div class="input-wrap">
+            <span class="prefix">Rp</span>
+            <input id="nominal" inputmode="numeric" value="100.000.000" autocomplete="off" />
+          </div>
         </div>
-      </label>
 
-      <label>Suku Bunga (% p.a.)
-        <div class="clean-input">
-          <input id="rate" type="number" value="3" step="0.25">
-          
-          
+        <div class="field full">
+          <label for="rate">Suku Bunga (% p.a.)</label>
+          <div class="input-wrap">
+            <input id="rate" type="number" value="5" step="0.01" min="0" />
+            <span class="suffix">% p.a.</span>
+          </div>
         </div>
-      </label>
 
-      <label>Tenor
-        <div class="tenor-row">
-          <button class="tenor active" data-days="30">1 Bulan</button>
-          <button class="tenor" data-days="90">3 Bulan</button>
-          <button class="tenor" data-days="180">6 Bulan</button>
-          <button class="tenor" data-days="365">12 Bulan</button>
+        <div class="field full">
+          <label>Tenor</label>
+          <div class="tenor-grid">
+            <button type="button" class="tenor-btn active" data-days="30">1 Bulan</button>
+            <button type="button" class="tenor-btn" data-days="90">3 Bulan</button>
+            <button type="button" class="tenor-btn" data-days="180">6 Bulan</button>
+            <button type="button" class="tenor-btn" data-days="365">12 Bulan</button>
+          </div>
         </div>
-      </label>
 
-      <label>Jumlah Hari
-        <input id="days" class="readonly" readonly>
-      </label>
-
-      <div class="result-box">
-        <span>Estimasi Bunga Bersih</span>
-        <strong id="interest"></strong>
+        <div class="field full">
+          <label for="days">Jumlah Hari</label>
+          <input id="days" class="readonly" value="30 hari" readonly />
+        </div>
       </div>
 
-      <div class="result-box accent">
-        <span>Estimasi Dana Jatuh Tempo</span>
-        <strong id="total"></strong>
-      </div>
-    </div>
-</section>
-    <p class="note">Perhitungan menggunakan basis 365 hari dan estimasi pajak bunga 20%.</p>
-    
-  </section>
-</main>
-<script src="assets/common.js"></script>
-<script src="assets/deposito.js"></script>
+      <section class="result-section">
+        <h2 class="result-title">Hasil Simulasi</h2>
+        <div class="result-grid">
+          <div class="result-card">
+            <span>Estimasi Bunga Bruto</span>
+            <strong id="gross">Rp 0</strong>
+          </div>
+
+          <div class="result-card">
+            <span>Estimasi Pajak 20%</span>
+            <strong id="tax">Rp 0</strong>
+          </div>
+
+          <div class="result-card">
+            <span>Estimasi Bunga Bersih</span>
+            <strong id="net">Rp 0</strong>
+          </div>
+
+          <div class="result-card total">
+            <span>Estimasi Dana Jatuh Tempo</span>
+            <strong id="total">Rp 0</strong>
+          </div>
+        </div>
+      </section>
+
+      <p class="note">Perhitungan menggunakan basis 365 hari dan estimasi pajak bunga sebesar 20%.</p>
+    </section>
+  </main>
+
+  <script>
+    const nominalInput = document.getElementById('nominal');
+    const rateInput = document.getElementById('rate');
+    const daysInput = document.getElementById('days');
+    const grossEl = document.getElementById('gross');
+    const taxEl = document.getElementById('tax');
+    const netEl = document.getElementById('net');
+    const totalEl = document.getElementById('total');
+    const tenorButtons = [...document.querySelectorAll('.tenor-btn')];
+
+    let selectedDays = 30;
+
+    function onlyDigits(value){
+      return String(value).replace(/\D/g,'');
+    }
+
+    function formatNumber(value){
+      return Number(value || 0).toLocaleString('id-ID');
+    }
+
+    function rupiah(value){
+      return 'Rp ' + Math.round(value || 0).toLocaleString('id-ID');
+    }
+
+    function formatNominalInput(){
+      const raw = onlyDigits(nominalInput.value);
+      nominalInput.value = raw ? formatNumber(raw) : '';
+    }
+
+    function calculate(){
+      const nominal = Number(onlyDigits(nominalInput.value)) || 0;
+      const rate = Number(rateInput.value) || 0;
+
+      const gross = nominal * (rate / 100) * (selectedDays / 365);
+      const tax = gross * 0.20;
+      const net = gross - tax;
+      const total = nominal + net;
+
+      daysInput.value = selectedDays + ' hari';
+      grossEl.textContent = rupiah(gross);
+      taxEl.textContent = rupiah(tax);
+      netEl.textContent = rupiah(net);
+      totalEl.textContent = rupiah(total);
+    }
+
+    nominalInput.addEventListener('input', () => {
+      formatNominalInput();
+      calculate();
+    });
+
+    rateInput.addEventListener('input', calculate);
+
+    tenorButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        tenorButtons.forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        selectedDays = Number(button.dataset.days);
+        calculate();
+      });
+    });
+
+    formatNominalInput();
+    calculate();
+  </script>
 </body>
 </html>
