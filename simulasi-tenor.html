@@ -1,87 +1,98 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Simulasi Tenor</title>
-  <link rel="stylesheet" href="assets/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulasi Tenor</title>
+<style>
+:root{--orange:#ff6b00;--orange2:#ff9b32;--navy:#07245f;--text:#27324b;--muted:#6f7b93;--line:#dfe6f1;--bg:#f3f6fb}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.topbar{background:#fff;border-bottom:1px solid var(--line)}.topbar-inner{width:min(980px,calc(100% - 28px));height:68px;margin:auto;display:flex;align-items:center;gap:12px}
+.brand{width:44px;height:44px;border:3px solid #ff9a00;border-radius:50%;display:grid;place-items:center;color:var(--orange);font-weight:900}
+.brand-copy strong{display:block;color:var(--navy)}.brand-copy span{font-size:12px;color:var(--muted)}
+.page{width:min(820px,calc(100% - 28px));margin:28px auto 60px}.hero{padding:26px;border-radius:22px;color:#fff;background:linear-gradient(120deg,var(--orange),var(--orange2));margin-bottom:20px}
+.hero h1{margin:0 0 8px;font-size:34px}.hero p{margin:0;line-height:1.55}
+.panel{padding:26px;background:#fff;border:1px solid var(--line);border-radius:22px}.panel h2{margin:0 0 22px;color:var(--navy)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.full{grid-column:1/-1}label{display:block;margin-bottom:9px;color:var(--navy);font-size:14px;font-weight:800}
+.input{display:flex;align-items:center;min-height:58px;border:1.5px solid #cfd8e7;border-radius:16px;background:#fff;overflow:hidden}
+.input:focus-within{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,107,0,.13)}.prefix,.suffix{color:#66728b;font-weight:800;white-space:nowrap}.prefix{padding-left:16px}.suffix{padding-right:16px}
+.input input{width:100%;height:56px;border:0;outline:0;background:transparent;padding:0 12px;font-size:18px;color:#35415a}
+input[type=number]{appearance:textfield;-moz-appearance:textfield}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.results{margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}.results h3{margin:0 0 14px;color:var(--navy)}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{padding:16px;border:1px solid var(--line);border-radius:16px;background:#f8fafc}
+.card span{display:block;margin-bottom:7px;color:var(--muted);font-size:12px}.card strong{color:var(--navy);font-size:22px;overflow-wrap:anywhere}
+.card.main{grid-column:1/-1;background:#fff3e9;border-color:#ffc59b}.card.main strong{color:#d95600;font-size:27px}
+.note{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.55}
+@media(max-width:680px){.brand-copy span{display:none}.page{margin-top:18px}.hero{padding:22px 18px}.hero h1{font-size:28px}.panel{padding:18px 14px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.result-grid{grid-template-columns:1fr}.card.main{grid-column:auto}.card strong{font-size:20px}.card.main strong{font-size:24px}}
+</style>
 </head>
-<body class="calc-body">
-<header class="topbar">
-  <div class="page-wrap topbar-inner">
-    <a class="back" href="index.html" aria-label="Kembali">←</a>
-    <div class="mini-brand">S</div>
-    <div>
-      <strong>Portal Simulasi Penempatan Dana</strong>
-      <span>Hitung estimasi tenor berdasarkan nominal dan target bunga.</span>
-    </div>
-  </div>
-</header>
-<main class="page-wrap calc-page">
-  <section class="calc-card">
-    <div class="calc-title">
-      <h1>Simulasi Tenor</h1>
-      <p>Hitung estimasi tenor berdasarkan nominal dan target bunga.</p>
-    </div>
-    
-    <section class="data-panel">
-  <h2>Data Penempatan</h2>
-  <div class="form-grid">
-      <label>Nominal Penempatan
-        <div class="clean-input">
-          <span>Rp</span><input id="nominal" inputmode="numeric" value="9240000000">
-          
-          
-        </div>
-      </label>
+<body>
+<header class="topbar"><div class="topbar-inner"><div class="brand">BJ</div><div class="brand-copy"><strong>Portal Simulasi Penempatan Dana</strong><span>Simulasi Tenor</span></div></div></header>
+<main class="page">
+<section class="hero"><h1>Simulasi Tenor</h1><p>Masukkan nominal penempatan, suku bunga, dan estimasi target bunga net untuk menghitung tenor yang dibutuhkan.</p></section>
+<section class="panel">
+<h2>Data Simulasi</h2>
+<div class="grid">
+<div class="full"><label>Nominal Penempatan</label><div class="input"><span class="prefix">Rp</span><input id="nominal" inputmode="numeric" value="924.000.000"></div></div>
+<div class="full"><label>Suku Bunga</label><div class="input"><input id="rate" type="number" value="4" step="0.01" min="0.01"><span class="suffix">% p.a.</span></div></div>
+<div class="full"><label>Estimasi Target Nominal Bunga Net</label><div class="input"><span class="prefix">Rp</span><input id="targetNet" inputmode="numeric" value="35.000.000"></div></div>
+</div>
 
-      <label>Suku Bunga (% p.a.)
-        <div class="clean-input">
-          <input id="rateInput" type="number" value="4.5" step="0.25">
-          
-          
-        </div>
-      </label>
-
-      <label>Target Bunga Net
-        <div class="clean-input">
-          <span>Rp</span><input id="targetNet" inputmode="numeric" value="25000000000">
-          
-          
-        </div>
-      </label>
-
-      <div class="result-box">
-        <span>Bunga Gross</span>
-        <strong id="gross"></strong>
-      </div>
-
-      <div class="result-box">
-        <span>Pajak</span>
-        <strong id="tax"></strong>
-      </div>
-
-      <div class="result-box">
-        <span>Bunga Net</span>
-        <strong id="net"></strong>
-      </div>
-
-      <div class="result-box accent">
-        <span>Estimasi Tenor</span>
-        <strong id="months"></strong>
-      </div>
-
-      <div class="result-box">
-        <span>Estimasi Hari</span>
-        <strong id="days"></strong>
-      </div>
-    </div>
+<section class="results">
+<h3>Hasil Simulasi</h3>
+<div class="result-grid">
+<div class="card"><span>Nominal Bunga Gross</span><strong id="gross">Rp 0</strong></div>
+<div class="card"><span>Pajak 20%</span><strong id="tax">Rp 0</strong></div>
+<div class="card main"><span>Estimasi Tenor Program</span><strong id="months">0 bulan</strong></div>
+<div class="card"><span>Estimasi Jumlah Hari</span><strong id="days">0 hari</strong></div>
+</div>
 </section>
-    <p class="note">Konversi estimasi tenor menggunakan 30 hari per bulan dan basis perhitungan 360 hari.</p>
-    
-  </section>
+
+<p class="note">Perhitungan tenor menggunakan basis 365 hari per tahun. Estimasi bulan dihitung dari jumlah hari dibagi rata-rata 30 hari dan dibulatkan ke bulan terdekat.</p>
+</section>
 </main>
-<script src="assets/common.js"></script>
-<script src="assets/simulasi-tenor.js"></script>
+
+<script>
+const nominal=document.getElementById('nominal');
+const rate=document.getElementById('rate');
+const targetNet=document.getElementById('targetNet');
+const gross=document.getElementById('gross');
+const tax=document.getElementById('tax');
+const months=document.getElementById('months');
+const days=document.getElementById('days');
+
+const digits=v=>String(v).replace(/\D/g,'');
+const rupiah=v=>'Rp '+Math.round(v||0).toLocaleString('id-ID');
+
+function formatMoneyInput(el){
+  const raw=digits(el.value);
+  el.value=raw?Number(raw).toLocaleString('id-ID'):'';
+}
+
+function calculate(){
+  const n=Number(digits(nominal.value))||0;
+  const r=Number(rate.value)||0;
+  const target=Number(digits(targetNet.value))||0;
+
+  const grossValue=target/0.8;
+  const taxValue=grossValue-target;
+  const dayValue=(n>0&&r>0)?grossValue/(n*(r/100))*365:0;
+  const monthValue=Math.round(dayValue/30);
+
+  gross.textContent=rupiah(grossValue);
+  tax.textContent='- '+rupiah(taxValue);
+  days.textContent=Math.round(dayValue).toLocaleString('id-ID')+' hari';
+  months.textContent=monthValue.toLocaleString('id-ID')+' bulan';
+}
+
+[nominal,targetNet].forEach(el=>{
+  el.addEventListener('input',()=>{formatMoneyInput(el);calculate()});
+});
+rate.addEventListener('input',calculate);
+
+formatMoneyInput(nominal);
+formatMoneyInput(targetNet);
+calculate();
+</script>
 </body>
 </html>
